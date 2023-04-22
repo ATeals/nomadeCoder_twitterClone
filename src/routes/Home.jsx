@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { dbService } from "../firebaseInstance";
+import React, { useEffect, useState, useRef } from "react";
+import { dbService, storageServuce } from "../firebaseInstance";
 import { collection, addDoc, getDocs } from "firebase/firestore";
+import { v4 as uuidV4 } from "uuid";
+import { ref, uploadString, getDownloadURL } from "@firebase/storage";
 
-import Nweet from "../components/nweet";
+import Nweet from "../components/Nweet";
 
 export default function Home({ userObj }) {
     const [nweet, setNweet] = useState();
     const [nweets, setNweets] = useState([]);
+    const [attachment, setAttachment] = useState("");
+    const fileInput = useRef();
 
     // const getNweets = async () => {
     //     const dbNweets = await getDocs(collection(dbService, "nweets"));
@@ -31,12 +35,22 @@ export default function Home({ userObj }) {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        await addDoc(collection(dbService, "nweets"), {
+        let attachmentUrl = "";
+        if (attachment !== "") {
+            const attachmentRef = ref(storageServuce, `${userObj.uid}/${uuidV4()}`);
+            const res = await uploadString(attachmentRef, attachment, "data_url");
+            attachmentUrl = await getDownloadURL(res.ref);
+        }
+
+        const nweetObj = {
             text: nweet,
             createdAt: Date.now(),
             createId: userObj.uid,
-        });
+            attachmentUrl,
+        };
+        await addDoc(collection(dbService, "nweets"), nweetObj);
         setNweet("");
+        setAttachment("");
     };
 
     const onChange = (e) => {
@@ -44,6 +58,27 @@ export default function Home({ userObj }) {
             target: { value },
         } = e;
         setNweet(value);
+    };
+
+    const onFileChange = (e) => {
+        const {
+            target: { files },
+        } = e;
+
+        const theFile = files[0];
+        const reader = new FileReader();
+        reader.onloadend = (finishEvent) => {
+            const {
+                currentTarget: { result },
+            } = finishEvent;
+            setAttachment(result);
+        };
+        reader.readAsDataURL(theFile);
+    };
+
+    const onClearAttachment = () => {
+        setAttachment();
+        fileInput.current.value = "";
     };
 
     return (
@@ -57,9 +92,25 @@ export default function Home({ userObj }) {
                     onChange={onChange}
                 />
                 <input
+                    type="file"
+                    accept="image/*"
+                    onChange={onFileChange}
+                    ref={fileInput}
+                />
+                <input
                     type="submit"
                     value={`Nweet`}
                 />
+                {attachment && (
+                    <div>
+                        <img
+                            src={attachment}
+                            width="100px"
+                            height="auto"
+                        />
+                        <button onClick={onClearAttachment}>Clear</button>
+                    </div>
+                )}
             </form>
             <div>
                 {nweets.map((nweet) => (
