@@ -45,7 +45,7 @@ export default function Home({ userObj }) {
         const nweetObj = {
             text: nweet,
             createdAt: Date.now(),
-            createId: userObj.uid,
+            creatorId: userObj.uid,
             attachmentUrl,
         };
         await addDoc(collection(dbService, "nweets"), nweetObj);
@@ -117,7 +117,7 @@ export default function Home({ userObj }) {
                     <Nweet
                         key={nweet.id}
                         nweetObj={nweet}
-                        isOwner={nweet.createId === userObj.uid}
+                        isOwner={nweet.creatorId === userObj.uid}
                     />
                 ))}
             </div>
