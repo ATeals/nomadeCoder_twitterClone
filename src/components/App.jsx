@@ -1,6 +1,7 @@
 import AppRouter from "./AppRouter";
 import { useEffect, useState } from "react";
 import { authService } from "../firebaseInstance";
+import style from "../css/App.module.css";
 
 function App() {
     const [init, setInit] = useState(false);
@@ -33,7 +34,7 @@ function App() {
         });
     }, []);
     return (
-        <div>
+        <div className={style.main}>
             {init ? (
                 <AppRouter
                     refreshUser={refreshUser}
@@ -43,7 +44,7 @@ function App() {
             ) : (
                 <h1>Loading...</h1>
             )}
-            <footer>&copy;{new Date().getFullYear()} Nwitter</footer>
+            <footer className={style.footer}>&copy;{new Date().getFullYear()} Nwitter</footer>
         </div>
     );
 }

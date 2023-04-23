@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { authService, fbInstance } from "../firebaseInstance";
+import style from "../css/Auth.module.css";
 
 const Auth = () => {
     const [email, setEmail] = useState("");
@@ -49,33 +50,43 @@ const Auth = () => {
     };
 
     return (
-        <div>
-            <form onSubmit={onSubmit}>
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    required
-                    value={email}
-                    onChange={onChange}
-                />
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    required
-                    value={password}
-                    onChange={onChange}
-                />
-                {error ? <div>{error}</div> : null}
-                <input
-                    type="submit"
-                    value={newAccount ? "Creat Account" : "Log In"}
-                />
-                <div onClick={toggleAccount}>{newAccount ? "Login" : "Creat Account"}</div>
+        <div className={style.auth}>
+            <form
+                className={style.loginForm}
+                onSubmit={onSubmit}
+            >
+                <div className={style.loginForm__row}>
+                    <input
+                        className={style.input}
+                        type="email"
+                        name="email"
+                        placeholder="Email"
+                        required
+                        value={email}
+                        onChange={onChange}
+                    />
+                    <input
+                        className={style.input}
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        required
+                        value={password}
+                        onChange={onChange}
+                    />
+                    {error ? <div>{error}</div> : null}
+                </div>
+                <div className={style.loginForm__row}>
+                    <input
+                        type="submit"
+                        value={newAccount ? "Creat Account" : "Log In"}
+                    />
+                    <div onClick={toggleAccount}>{newAccount ? "Login" : "Creat Account"}</div>
+                </div>
             </form>
             <div>
                 <button
+                    className={style.googleLogin}
                     name="google"
                     onClick={onSocialClick}
                 >

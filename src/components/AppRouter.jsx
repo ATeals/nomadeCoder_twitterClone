@@ -5,11 +5,20 @@ import Auth from "../routes/Auth";
 import Nav from "../routes/Nav";
 import Profile from "../routes/Profile";
 
+import style from "../css/Nav.module.css";
+
 export default function AppRouter({ refreshUser, isLoggedIn, userObj }) {
     return (
         <HashRouter>
-            <h1>Nwitter</h1>
-            {isLoggedIn && <Nav userObj={userObj} />}
+            <div className={style.nav}>
+                <div>
+                    <h1>Nwitter</h1>
+                    {isLoggedIn && <h2>{userObj.displayName}</h2>}
+                </div>
+
+                {isLoggedIn && <Nav />}
+            </div>
+
             <Routes>
                 <Route
                     path="/"
