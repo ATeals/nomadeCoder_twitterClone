@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/static/css/main.73f9676f.css",
-    "main.js": "/static/js/main.15b82f1e.js",
-    "index.html": "/index.html",
-    "main.73f9676f.css.map": "/static/css/main.73f9676f.css.map",
-    "main.15b82f1e.js.map": "/static/js/main.15b82f1e.js.map"
+    "main.css": "/nomadeCoder_twitterClone/static/css/main.73f9676f.css",
+    "main.js": "/nomadeCoder_twitterClone/static/js/main.31e52f51.js",
+    "index.html": "/nomadeCoder_twitterClone/index.html",
+    "main.73f9676f.css.map": "/nomadeCoder_twitterClone/static/css/main.73f9676f.css.map",
+    "main.31e52f51.js.map": "/nomadeCoder_twitterClone/static/js/main.31e52f51.js.map"
   },
   "entrypoints": [
     "static/css/main.73f9676f.css",
-    "static/js/main.15b82f1e.js"
+    "static/js/main.31e52f51.js"
   ]
 }
